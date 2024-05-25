@@ -1,6 +1,7 @@
 package com.infybuzz.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -32,10 +34,4 @@ public class Order {
     @Column(name = "order_date", updatable = false)
     private LocalDateTime orderDate;
 
-    public Order(Double totalCost, OrderStatus orderStatus, LocalDateTime orderDate, Long userId) {
-        this.totalCost = totalCost;
-        this.orderStatus = orderStatus;
-        this.orderDate = orderDate;
-        this.userId = userId;
-    }
 }

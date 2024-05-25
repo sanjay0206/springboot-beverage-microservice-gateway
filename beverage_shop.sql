@@ -31,7 +31,7 @@ CREATE TABLE order_beverage (
     order_id INT,
     beverage_id INT,
 	quantity INT,
-    PRIMARY KEY (order_id, beverage_id)
+    PRIMARY KEY (order_id, beverage_id) ON DELETE CASCADE
 );
 
 -----------------------------------------------------------------------------------

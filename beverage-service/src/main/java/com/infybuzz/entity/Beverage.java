@@ -40,13 +40,4 @@ public class Beverage {
 	@Column(name = "modifiedAt")
 	private LocalDateTime modifiedAt;
 
-	public Beverage(String beverageName, Double beverageCost, BeverageType beverageType,
-					Integer availability, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-		this.beverageName = beverageName;
-		this.beverageCost = beverageCost;
-		this.beverageType = beverageType;
-		this.availability = availability;
-		this.createdAt = createdAt;
-		this.modifiedAt = modifiedAt;
-	}
 }

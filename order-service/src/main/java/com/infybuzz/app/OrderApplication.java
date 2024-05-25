@@ -49,36 +49,52 @@ public class OrderApplication {
                                         OrderBeverageRepository orderBeverageRepository) {
         return args -> {
 
-            // Create and add Order objects to the list
-            Order order1 = new Order(25.00, OrderStatus.PREPARING, LocalDateTime.now(), 1L);
-            Order order2 = new Order(15.00, OrderStatus.SERVED, LocalDateTime.parse("2024-05-15T11:30:00"), 3L);
-            Order order3 = new Order(40.50, OrderStatus.SERVED, LocalDateTime.parse("2024-05-15T12:45:00"), 3L);
+            // Create orders and save all in order table
+            Order order1 = Order.builder()
+                    .totalCost(25.00)
+                    .orderStatus(OrderStatus.PREPARING)
+                    .orderDate(LocalDateTime.now())
+                    .userId(1L)
+                    .build();
+
+            Order order2 = Order.builder()
+                    .totalCost(15.00)
+                    .orderStatus(OrderStatus.SERVED)
+                    .orderDate(LocalDateTime.parse("2024-05-15T11:30:00"))
+                    .userId(3L)
+                    .build();
+
+            Order order3 = Order.builder()
+                    .totalCost(40.50)
+                    .orderStatus(OrderStatus.SERVED)
+                    .orderDate(LocalDateTime.parse("2024-05-15T12:45:00"))
+                    .userId(3L)
+                    .build();
             orderRepository.saveAll(Arrays.asList(order1, order2, order3));
 
+            // Create order beverages and save all in order_beverage table
             // 1st order
-            OrderBeverage orderBeverage1 = new OrderBeverage();
-            orderBeverage1.setId(new OrderBeverageId(order1, 1L));
-            orderBeverage1.setQuantity(2);
-            orderBeverageRepository.save(orderBeverage1);
-
-            // Here, the corrected variable name is `orderBeverage2`
-            OrderBeverage orderBeverage2 = new OrderBeverage();
-            orderBeverage2.setId(new OrderBeverageId(order1, 2L));
-            orderBeverage2.setQuantity(1);
-            orderBeverageRepository.save(orderBeverage2);
+            OrderBeverage orderBeverage1 = OrderBeverage.builder()
+                    .id(new OrderBeverageId(order1, 1L))
+                    .quantity(2)
+                    .build();
+            OrderBeverage orderBeverage2 = OrderBeverage.builder()
+                    .id(new OrderBeverageId(order1, 2L))
+                    .quantity(1)
+                    .build();
 
             // 2nd order
-            OrderBeverage orderBeverage3 = new OrderBeverage();
-            orderBeverage3.setId(new OrderBeverageId(order2, 2L));
-            orderBeverage3.setQuantity(2);
-            orderBeverageRepository.save(orderBeverage3);
+            OrderBeverage orderBeverage3 = OrderBeverage.builder()
+                    .id(new OrderBeverageId(order2, 2L))
+                    .quantity(2)
+                    .build();
 
             // 3rd order
-            OrderBeverage orderBeverage4 = new OrderBeverage();
-            orderBeverage4.setId(new OrderBeverageId(order3, 3L));
-            orderBeverage4.setQuantity(2);
-            orderBeverageRepository.save(orderBeverage4);
-
+            OrderBeverage orderBeverage4 = OrderBeverage.builder()
+                    .id(new OrderBeverageId(order3, 3L))
+                    .quantity(2)
+                    .build();
+            orderBeverageRepository.saveAll(Arrays.asList(orderBeverage1, orderBeverage2, orderBeverage3, orderBeverage4));
         };
     }
 }

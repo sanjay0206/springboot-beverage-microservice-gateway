@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
@@ -31,12 +31,43 @@ public class BeverageServiceApplication {
 	CommandLineRunner commandLineRunner (BeverageRepository beverageRepository) {
 		return args -> {
 
-			List<Beverage> beverages = new ArrayList<>();
-			beverages.add(new Beverage("Espresso", 12.50, BeverageType.COFFEE, 4, LocalDateTime.now(), null));
-			beverages.add(new Beverage("Green Tea", 11.80, BeverageType.TEA, 8, LocalDateTime.now(), null));
-			beverages.add(new Beverage("Cola", 13.50, BeverageType.SOFT_DRINKS, 5, LocalDateTime.now(), null));
-			beverages.add(new Beverage("Apple Juice", 20.00, BeverageType.FRESH_JUICE, 5, LocalDateTime.now(), null));
+			Beverage espresso = Beverage.builder()
+					.beverageName("Espresso")
+					.beverageCost(12.50)
+					.beverageType(BeverageType.COFFEE)
+					.availability(4)
+					.createdAt(LocalDateTime.now())
+					.modifiedAt(null)
+					.build();
 
+			Beverage greenTea = Beverage.builder()
+					.beverageName("Green Tea")
+					.beverageCost(11.80)
+					.beverageType(BeverageType.TEA)
+					.availability(8)
+					.createdAt(LocalDateTime.now())
+					.modifiedAt(null)
+					.build();
+
+			Beverage cola = Beverage.builder()
+					.beverageName("Cola")
+					.beverageCost(13.50)
+					.beverageType(BeverageType.SOFT_DRINKS)
+					.availability(5)
+					.createdAt(LocalDateTime.now())
+					.modifiedAt(null)
+					.build();
+
+			Beverage appleJuice = Beverage.builder()
+					.beverageName("Apple Juice")
+					.beverageCost(20.00)
+					.beverageType(BeverageType.FRESH_JUICE)
+					.availability(5)
+					.createdAt(LocalDateTime.now())
+					.modifiedAt(null)
+					.build();
+
+			List<Beverage> beverages = Arrays.asList(espresso, greenTea, cola, appleJuice);
 			beverageRepository.saveAll(beverages);
 
 		};
