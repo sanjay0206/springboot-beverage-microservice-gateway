@@ -102,7 +102,8 @@ public class OrderService {
 
             // If the requested quantity exceeds the available stock, throw an exception
             if (beverageResponse.getAvailability() - beverage.getQuantity() < 0) {
-                throw new OrderServiceException(HttpStatus.UNPROCESSABLE_ENTITY, "Insufficient availability for beverage ID: " + beverage.getBeverageId());
+                throw new OrderServiceException(HttpStatus.UNPROCESSABLE_ENTITY,
+                        "Insufficient availability for beverage ID: " + beverage.getBeverageId());
             }
 
             // Calculate total cost

@@ -23,7 +23,6 @@ public class JwtAuthGatewayFilter implements GlobalFilter {
 
     private static final String TOKEN_VALIDATION_URL = "http://localhost:9090/auth-service/api/auth/validate?token=";
 
-
     public String getAuthHeader(ServerWebExchange exchange) {
         HttpHeaders headers = exchange.getRequest().getHeaders();
         if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
