@@ -3,6 +3,7 @@ package com.infybuzz.filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 @Component
 public class JwtAuthGatewayFilter implements GlobalFilter {
@@ -21,18 +24,18 @@ public class JwtAuthGatewayFilter implements GlobalFilter {
     @Autowired
     RouteValidator validator;
 
-    private static final String TOKEN_VALIDATION_URL = "http://localhost:9090/auth-service/api/auth/validate?token=";
-
-    public String getAuthHeader(ServerWebExchange exchange) {
-        HttpHeaders headers = exchange.getRequest().getHeaders();
-        if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) {
-            throw new RuntimeException("Missing authorization header");
-        }
-        return headers.getFirst(HttpHeaders.AUTHORIZATION);
-    }
+    @Value("${token.validation.url}")
+    String tokenValidationUrl;
 
     private boolean isInternalRequest(ServerWebExchange exchange) {
         return exchange.getRequest().getHeaders().containsKey("X-Internal-Request");
+    }
+
+    public String getAuthHeader(ServerWebExchange exchange) {
+        HttpHeaders headers = exchange.getRequest().getHeaders();
+        return Optional
+                .ofNullable(headers.getFirst(HttpHeaders.AUTHORIZATION))
+                .orElseThrow(() -> new RuntimeException("Missing authorization header"));
     }
 
     @Override
@@ -53,15 +56,13 @@ public class JwtAuthGatewayFilter implements GlobalFilter {
         }
 
         String authHeader = getAuthHeader(exchange);
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            authHeader = authHeader.substring(7);
-        } else {
-            throw new RuntimeException("Invalid authorization header format");
-        }
+        String token = Optional.ofNullable(authHeader)
+                .filter(header -> header.startsWith("Bearer "))
+                .map(header -> header.substring(7))
+                .orElseThrow(() -> new RuntimeException("Invalid authorization header format"));
 
-        logger.info("Making REST call to validate JWT: " + authHeader);
-        String tokenValidationEndpoint = TOKEN_VALIDATION_URL + authHeader;
-        logger.info("Token valid: " +  restTemplate.getForObject(tokenValidationEndpoint, Boolean.class));
+        logger.info("Making REST call to validate JWT token: " + token);
+        logger.info("Token valid: " +  restTemplate.getForObject(tokenValidationUrl + token, Boolean.class));
 
         // Continue with the filter chain
         return chain.filter(exchange)
