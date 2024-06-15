@@ -9,7 +9,7 @@ public class FeignClientConfig {
 
     @Bean
     public RequestInterceptor requestInterceptor() {
-        return requestTemplate -> requestTemplate.header("X-Internal-Request", "true");
+        return requestTemplate -> requestTemplate.header("X-Internal-Request", "Internal");
     }
 
 }

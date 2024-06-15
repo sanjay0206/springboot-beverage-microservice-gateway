@@ -1,3 +1,9 @@
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+
 spring:
   cloud:
     gateway:
@@ -16,3 +22,10 @@ spring:
           uri: lb://order-service
           predicates:
             - Path=/api/order/**
+
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: http://localhost:8083/api/auth
+          jwk-set-uri: http://localhost:8083/api/auth/.well-known/jwks.json   # To retrieve the public key corresponding tp the kid in JWT

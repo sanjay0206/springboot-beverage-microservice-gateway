@@ -15,6 +15,4 @@ public interface BeverageFeignClient {
     @PutMapping("/update-availability/{id}")
     void updateBeverageAvailability(@PathVariable("id") Long id, @RequestParam("quantity") int quantity);
 
-    @PutMapping("/update-stock/{id}")
-    void updateBeverageStock(@PathVariable("id") long id, @RequestParam("beverageStock") String beverageStock);
 }
