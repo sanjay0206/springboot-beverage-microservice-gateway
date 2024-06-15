@@ -3,9 +3,10 @@
 
 CREATE TABLE users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
-  username varchar(45) DEFAULT NULL,
-  password varchar(45) DEFAULT NULL,
-  email varchar(45) DEFAULT NULL,
+  username VARCHAR(45) DEFAULT NULL,
+  password VARCHAR(45) DEFAULT NULL,
+  email VARCHAR(45) DEFAULT NULL,
+  role ENUM('USER', 'SHOP_OWNER') DEFAULT 'USER' -- Default role is USER
 );
 
 CREATE TABLE beverages (
@@ -37,9 +38,9 @@ CREATE TABLE order_beverage (
 -----------------------------------------------------------------------------------
 -- INSERT QUERIES
 
-INSERT INTO `` (`id`,`created_at`,`email`,`password`,`username`) VALUES (1,'2024-05-20 22:14:12.710439','john@gmail.com','$2a$10$UzgM4cczXekCCQzJso2KI.8OPIiEOn0GlVJpO4w0jJy/MAr4Yz0h.','john_doe');
-INSERT INTO `` (`id`,`created_at`,`email`,`password`,`username`) VALUES (2,'2024-05-20 22:14:12.813443','owner@admin.com','$2a$10$Y9NtRgKZ18D35ZxNel99ze5D2eNh9Xag2Grji21ZccmDqJrlFQHOq','cafe_owner');
-INSERT INTO `` (`id`,`created_at`,`email`,`password`,`username`) VALUES (3,'2024-05-20 22:14:12.892438','alice@gmail.com','$2a$10$nTX.FJBTEJ1D1R91.qgdRebW.TRY6XljQGuo/zbTxhOWzK8ItOrbG','alice_smith');
+INSERT INTO users (user_id, created_at, email, password, username, role) VALUES (1, '2024-05-20 22:14:12.710439', 'john@gmail.com', '$2a$10$UzgM4cczXekCCQzJso2KI.8OPIiEOn0GlVJpO4w0jJy/MAr4Yz0h.', 'john_doe', 'USER');
+INSERT INTO users (user_id, created_at, email, password, username, role) VALUES (2, '2024-05-20 22:14:12.813443', 'owner@admin.com', '$2a$10$Y9NtRgKZ18D35ZxNel99ze5D2eNh9Xag2Grji21ZccmDqJrlFQHOq', 'shop_owner', 'SHOP_OWNER');
+INSERT INTO users (user_id, created_at, email, password, username, role) VALUES (3, '2024-05-20 22:14:12.892438', 'alice@gmail.com', '$2a$10$nTX.FJBTEJ1D1R91.qgdRebW.TRY6XljQGuo/zbTxhOWzK8ItOrbG', 'alice_smith', 'USER');
 
 INSERT INTO `` (`beverage_id`,`availability`,`beverage_cost`,`beverage_name`,`beverage_type`,`created_at`,`modified_at`) VALUES (1,4,12.5,'Espresso','COFFEE','2024-05-20 22:15:25.172123',NULL);
 INSERT INTO `` (`beverage_id`,`availability`,`beverage_cost`,`beverage_name`,`beverage_type`,`created_at`,`modified_at`) VALUES (2,8,11.8,'Green Tea','TEA','2024-05-20 22:15:25.172123',NULL);
